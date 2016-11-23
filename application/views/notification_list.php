@@ -20,31 +20,7 @@ $(function () {
 		screenfull.toggle($('#container')[0]);
 	});
 	
-	cur_page = $(location).attr('href');
-	if(cur_page.indexOf("villa") > 0){
-		$("#prop_list_change").val("villa");
-	}else if(cur_page.indexOf("warehouse") > 0){
-		$("#prop_list_change").val("warehouse");
-	}else {
-		$("#prop_list_change").val("");
-	}
 	
-	$("#prop_list_change").change(function(){
-		var value = $(this).val();
-		var newpage = "<?php echo base_url(); ?>/index.php/";
-
-		//newpage = $(location).attr('href');
-		if(value == "villa"){
-			page = "property/villa";
-		}else if(value == "warehouse"){
-			page = "property/warehouse";
-		}else {
-			page = "property/index";
-		}
-		
-		newpage = newpage+page;
-		$(location).attr('href', newpage);
-	});
 });
 </script>
 
@@ -65,28 +41,15 @@ $(function () {
 								<div class="bs-example bs-example-tabs" role="tabpanel"
 									data-example-id="togglable-tabs">
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
-										  <li role="presentation" class="active"><a href="#" id="home-tab" role="tab">Home</a></li>
-                                          <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addproperty" role="tab" id="profile-tab">New Building/Villa/Warehouse</a></li>
-                                          <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addflat" role="tab" id="profile-tab">New Flat/6 Room House</a></li>
-                                           <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addtenant" role="tab" id="profile-tab">New Tenant</a></li>
+										  <li role="presentation" class="active"><a href="#" id="home-tab" role="tab">Notification List</a></li>
+                                          <!--li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addtenant" role="tab" id="profile-tab">New Tenant</a></li-->
 									</ul>
                                    
                                     <div id="myTabContent" class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active"
                                             id="home" aria-labelledby="home-tab">
-                                         	<h2 class="h2.-bootstrap-heading group-mail">Property List</h2>
-                                            <form name="property_form" method="get">
-                                            <div class="row">
-                                            	<div class="col-md-2">
-                                                <label for="propery">Property Type</label>
-                                            	<select class="form-control1" id="prop_list_change" name="prop_list_change">
-                                                	<option value="">Building</option>
-                                                	<option value="villa">Villa</option>
-                                                    <option value="warehouse">Warehouse</option>
-                                            	</select>
-                                                </div>
-                                            </div>
-                                            </form>
+                                         	<h2 class="h2.-bootstrap-heading group-mail">List of Property to Pay Rent yet</h2>
+                                            
                                             <div class="row show-grid">
                                                 <div class="col-md-1">
                                                     S.No
@@ -101,10 +64,10 @@ $(function () {
                                                     Building/Villa/Warehouse No
                                                 </div>
                                                 <div class="col-md-2">
-                                                    Creation Date
+                                                    Last Paid Date
                                                 </div>
                                                 <div class="col-md-2">
-                                                    Action
+                                                    Rent Value
                                                 </div>
                                             </div>
                                             <?php $i =1;
@@ -127,10 +90,7 @@ $(function () {
                                                     <?php echo $val['date'];?>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <a href="<?php echo base_url(); ?>index.php/property/update_property?id=<?php echo $val['id'];?>&type=<?php echo $val['type'];?>">View</a>
-                                                    <?php if($val['type'] == 'Building') {?>
-                                                    &nbsp; &nbsp;<a href="<?php echo base_url(); ?>index.php/property/buildingsublist?id=<?php echo $val['id'];?>">View Flats Detail</a>
-                                                    <?php }?>
+                                                    <?php echo $val['rent'];?>
                                                 </div>
                                             </div>
                                             <?php $i++; }}else{?>
@@ -141,59 +101,48 @@ $(function () {
                                             </div>
                                             <?php }?>
                                             
+                                            <h2 class="h2.-bootstrap-heading group-mail">List of Post dated cheque (due in a week)</h2>
                                             <div class="row show-grid">
                                                 <div class="col-md-1">
                                                     S.No
                                                 </div>
-                                                <div class="col-md-2">
-                                                    Tenant Name 
+                                                <div class="col-md-4">
+                                                    Property Details
                                                 </div>
                                                 <div class="col-md-2">
-                                                    Property Type
+                                                    Cheque Date
+                                                </div>
+                                                <div class="col-md-3">
+                                                    Cheque No
                                                 </div>
                                                 <div class="col-md-2">
-                                                    Rent Amount
-                                                </div>
-                                                <div class="col-md-2">
-                                                    Contract Start Date
-                                                </div>
-                                                <div class="col-md-2">
-                                                    Contract End Date
-                                                </div>
-                                                <div class="col-md-1">
-                                                    Action
+                                                    Amount
                                                 </div>
                                             </div>
                                             <?php $i =1;
-											 if($tendata){
-											 foreach($tendata as $val){?>
+											 if($cheqdata){
+											 foreach($cheqdata as $val){?>
                                             <div class="datarow row commonsize">
                                                 <div class="col-md-1">
                                                     <?php echo $i;?>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <?php echo $val['name']; ?>
+                                                <div class="col-md-4">
+                                                    <?php echo $val['prop_det']; ?>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <?php echo $val['prop_type'];?>
+                                                    <?php echo $val['chq_date'];?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <?php echo $val['chq_no'];?>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <?php echo $val['rent'];?>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <?php echo $val['std'];?>
-                                                </div>
-                                                <div class="col-md-2">
-                                                     <?php echo $val['etd'];?>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <a href="<?php echo base_url(); ?>index.php/property/updatetenant?id=<?php echo $val['id'];?>">Renew Contract</a>
+                                                    <?php echo $val['amt'];?>
                                                 </div>
                                             </div>
                                             <?php $i++; }}else{?>
                                             <div class="row commonsize">
                                             	<div class="col-md-1"></div>
-                                                <div class="col-md-10" align="center">-- No Tenant Found --</div>
+                                                <div class="col-md-10" align="center">-- No Posted Cheque Found for upcoming one week--</div>
                                                 <div class="col-md-1"></div>
                                             </div>
                                             <?php }?>

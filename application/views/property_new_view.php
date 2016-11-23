@@ -293,7 +293,7 @@ $(function () {
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3 group-mail">
-                                            <label for="shopi_rent">Rent Amount (AED)</label>
+                                            <label for="shopi_rent">Rent Value (AED)</label>
                                             <input id="shopi_rent" name="shopi_rent" class="form-control" type="text" placeholder="1xxx or 2xxxx">
                                             </div>
                                             <div class="col-md-2">

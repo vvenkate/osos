@@ -64,11 +64,9 @@ class MainTicket_Model extends CI_Model {
 		}else{
 			$insdata['created_by']=$this->input->post('emp_logged_in');
 		}
-		$insdata['unit_number']=$this->input->post('maint_prop_unit_no');
 		if($this->input->post('maint_prop_type') == 1){
 			$insdata['flat_no']=$this->input->post('maint_prop_flat_no');
 		}
-		$insdata['unit_type'] = $this->input->post('maint_prop_type');
 		$insdata['issue_type'] = $this->input->post('issue_type');
 		$insdata['priority_type'] = $this->input->post('maint_prior');
 		$insdata['ticket_status'] = $this->input->post('ticket_status');
@@ -91,10 +89,13 @@ class MainTicket_Model extends CI_Model {
 	}
 	
 	//get Flat based on Builder Id.
-	public function getFlat($id){
+	public function getFlat($arrwhere=""){
 		$this->db->select('*');
 		$this->db->from('builder_resedential');
-		$this->db->where('builder_id',$id);
+		
+		if($arrwhere != ""){
+			$this->db->where($arrwhere);
+		}
 		
 		$query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -208,10 +209,13 @@ class MainTicket_Model extends CI_Model {
 	}
 	
 	//get list of tickets
-	public function getTicketList(){
+	public function getTicketList($where=""){
 		$this->db->select('*');
 		$this->db->from('ticket_details');
-		$this->db->order_by('created_by',"asc");
+		if($where != ""){
+			$this->db->where($where);
+		}
+		$this->db->order_by('created_at',"desc");
 		
 		$query = $this->db->get();
 		
@@ -229,7 +233,13 @@ class MainTicket_Model extends CI_Model {
 	
 // 	}
 	
-	public function getTicketDetailByUser($assigned_user_id, $tkt_status){
+	public function getTicketDetailByUser($assigned_user_id, $tkt_status, $tkt_priority){
+		
+// 		$this->db->where('LastName', 'Svendson');
+// 		$this->db->where('Age', 12);
+// 		$this->db->where("(FirstName='Tove' OR FirstName='Ola' OR Gender='M' OR Country='India')", NULL, FALSE);
+// 		$query = $this->db->get('Persons');
+// 		return $query->result();
 		
 		$this->db->select('*');
 		$this->db->from('ticket_details');
@@ -246,6 +256,106 @@ class MainTicket_Model extends CI_Model {
 			return false;
 		}
 	}
+
+	//$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($_POST['user_id'], count($actionStatus), $status_list, count($priotityStatus), $priority_list);
+	public function getTicketDetailByUserActive($assigned_user_id, $status_cnt, $status_list, $priority_cnt, $priority_list){
+		$this->db->select('*');
+		$this->db->from('ticket_details');
+			
+		for($i = 0; $i <= $status_cnt-1;  $i++)
+		{
+			if($i == 0)
+			{
+				$where1 = " ( ticket_status = '". $status_list[$i]. "'";
+			} else {
+				$where1 .= " OR ticket_status = '". $status_list[$i]. "'";
+			}
+			
+			if($i == $status_cnt-1)
+			{
+				$where1 .= " ) ";
+			}
+		}
+			
+		$this->db->where($where1);
+			
+		for($i = 0; $i <= $priority_cnt -1; $i++)
+		{
+			if($i == 0)
+			{
+				$where = " ( priority_type = $priority_list[$i] ";
+			} else {
+				$where .= " OR priority_type = $priority_list[$i] ";
+			}
+		
+			if($i == $priority_cnt-1)
+			{
+				$where .= " ) ";
+			}
+		}
+		
+		//var_dump($where);		
+		//die(0);
+					
+		$this->db->where($where);			
+		$this->db->where('assigned_user_id', $assigned_user_id);
+			
+// 		}else
+// 		{		
+// 			//$this->db->where('assigned_user_id', $assigned_user_id);
+// 			$this->db->where('ticket_status', $status);
+// 		}
+		
+		//$this->db->where('priority_type', $tkt_priority);
+		$query = $this->db->get();
+		//print_r($query);
+			
+		//exit;
+		
+		// 		$this->db->where('LastName', 'Svendson');
+		// 		$this->db->where('Age', 12);
+		// 		$this->db->where("(FirstName='Tove' OR FirstName='Ola' OR Gender='M' OR Country='India')", NULL, FALSE);
+		// 		$query = $this->db->get('Persons');
+		// 		return $query->result();
+	
+	
+		
+	
+		if ($query->num_rows() > 0) {
+			$row = $query->result();
+			return $row;
+		}else {
+			return false;
+		}
+	}
+	
+	
+	public function getTicketDetailByUserInActive($assigned_user_id, $tkt_priority, $status = false){
+		echo $status;
+		exit;
+		
+		// 		$this->db->where('LastName', 'Svendson');
+		// 		$this->db->where('Age', 12);
+		// 		$this->db->where("(FirstName='Tove' OR FirstName='Ola' OR Gender='M' OR Country='India')", NULL, FALSE);
+		// 		$query = $this->db->get('Persons');
+		// 		return $query->result();
+	
+		$this->db->select('*');
+		$this->db->from('ticket_details');
+	
+		$this->db->where('assigned_user_id', $assigned_user_id);
+		$this->db->where('ticket_status', $tkt_status);
+	
+		$query = $this->db->get();
+	
+		if ($query->num_rows() > 0) {
+			$row = $query->result();
+			return $row;
+		}else {
+			return false;
+		}
+	}
+	
 	
 	//to get list of users
 	public function getMaintanUser(){

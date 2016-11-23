@@ -54,7 +54,7 @@ $(function () {
                                             <div class="row" >
                                                 <div class="col-xs-6 col-md-4 group-mail">
                                                 <label for="prop_ftype">On Property Type</label>
-                                                <div class="radio block"><input id="prop_ftype" name="prop_ftype" type="radio" value="1"  /><label>Building - FLAT/Shop</label></div>
+                                                <div class="radio block"><input id="prop_ftype" name="prop_ftype" type="radio" value="1"  /><label>Building - Studio/6 Bed Room House</label></div>
                                                 <div class="radio block"><input id="prop_ftype" name="prop_ftype" type="radio" value="2" checked/><label>Villa</label></div>
                                                 <div class="radio block"><input id="prop_ftype" name="prop_ftype" type="radio" value="3" /><label> Warehouse</label></div>
                                                 </div>
@@ -178,10 +178,10 @@ $(function () {
                                                 <div class="col-md-4 group-mail">
                                                 <label>Payment Mode</label>
                                                 <select class="form-control" id="inpayment_mode" name="inpayment_mode" required>
-                                                      <option value="Cash">Cash</option>
-                                                      <option value="Cheque">Cheque</option>
-                                                      <option value="Online Transfer">Online Transfer</option>
-                                                     </select>
+                                                  <option value="Cash">Cash</option>
+                                                  <option value="Cheque">Cheque</option>
+                                                  <option value="Online Transfer">Bank Transfer</option>
+                                                 </select>
                                                 </div>
                                             </div>
                                             <div id="incheque" class="div_disable">

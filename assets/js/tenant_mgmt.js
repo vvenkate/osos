@@ -18,7 +18,7 @@ function divNoDisplay(elementid){
 		$(listboxid+' option').remove();
 		$(listboxid).append($('<option/>',{value:"",text:"---None---"}));
 
-		$.ajax({url: "http://"+hostname+"/OSOS/index.php/"+parturl, success: function(result){
+		$.ajax({url: "http://"+hostname+"/OSOSFinal/index.php/"+parturl, success: function(result){
 		var arrBuilder = jQuery.parseJSON(result);
 		$.each(arrBuilder, function (index, value) {
 				$(listboxid).append($('<option/>', { 
@@ -27,6 +27,7 @@ function divNoDisplay(elementid){
 				}));
 			}); 
 		}});
+		return true;
 	}
 $(document).ready( function() {
 
@@ -39,7 +40,7 @@ $(document).ready( function() {
 				divDisplay("#villa");
 				divNoDisplay("#flat");
 				divNoDisplay("#warehouse");	
-				getListBoxUpdate('#villa_no',"property/getlbvilla");
+				getListBoxUpdate('#villa_no',"property/getlbvilla?occupy=2");
 			}
 			if(value == "1"){
 				divNoDisplay("#villa");
@@ -51,7 +52,7 @@ $(document).ready( function() {
 				divNoDisplay("#villa");
 				divNoDisplay("#flat");
 				divDisplay("#warehouse");
-				getListBoxUpdate('#wh_no',"property/getlbwarehouse");
+				getListBoxUpdate('#wh_no',"property/getlbwarehouse?occupy=2");
 			}
 			if(value == "Shop"){
 				$("#villa").addClass("div_disable");
@@ -71,7 +72,7 @@ $(document).ready( function() {
 	
 	$("#flat_name").change(function(){
 		var val = $(this).val();
-		getListBoxUpdate('#flat_no',"ticket/getlbflat?id="+val);
+		getListBoxUpdate('#flat_no',"ticket/getlbflat?id="+val+"&occupy=2");
 	});
 	
 	$("#tenant_save").click(function(){

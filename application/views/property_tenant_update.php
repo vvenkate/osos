@@ -4,11 +4,11 @@
 <title>Virtual Desk - Property Management</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<?php $this->load->view('common/includes');?>
+<?php $this->load->view('common/includes'); ?>
 <link href="<?php echo base_url(); ?>assets/css/jquery-ui.min.css" rel="stylesheet" />
 <script src="<?php echo base_url(); ?>assets/js/jquery-ui.min.js"> </script>
 <script src="<?php echo base_url(); ?>assets/js/tenant_mgmt.js"></script>
-<script>
+<script type="text/javascript">
 $(function () {
 	$('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
 
@@ -19,7 +19,85 @@ $(function () {
 	$('#toggle').click(function () {
 		screenfull.toggle($('#container')[0]);
 	});
-	getListBoxUpdate('#villa_no',"property/getlbvilla?occupy=2");
+});
+$(document).ready( function() {
+	
+	//getListBoxUpdate('#villa_no',"property/getlbvilla");
+	
+	var jsondata = '<?php echo $json; ?>';
+	var jsoncontractd = '<?php echo $jsoncontract; ?>';
+	
+	if(jsondata){
+		var upprop = jQuery.parseJSON(jsondata);
+		var tentcon = jQuery.parseJSON(jsoncontractd);
+
+		$("#first_name").val(upprop.first_name);
+		$("#mid_name").val(upprop.middle_name);
+		$("#last_name").val(upprop.first_name);
+		$("#tenant_id").val(upprop.id);
+		$("input:radio[name=gender][value="+upprop.gender+"]").attr("checked",true);
+		$("#dob").val(upprop.dob);
+		$("#contact_no").val(upprop.mobile_no);
+		$("input:radio[name=mstatus][value="+upprop.marital_status+"]").attr("checked",true);
+			 
+		$("#nationality option[value='"+upprop.nationality+"']").attr('selected', true);
+		$("#company_name").val(upprop.org_name);
+		$("#workas").val(upprop.tenant_designation);
+		$("#contract_id").val(tentcon.id);
+		
+		if(tentcon.unit_type == 1){
+			//$("input:radio[name=prop_ttype]:nth(0)").checked = true;
+			if(getListBoxUpdate('#flat_name',"property/getlbbuilder")){
+				setTimeout(function(){ $("#flat_name option[value='"+tentcon.unit_id+"']").attr('selected', true); },2000);
+				if(getListBoxUpdate('#flat_no',"ticket/getlbflat?id="+tentcon.flat_no)){
+					setTimeout(function(){ 
+					$("#flat_no option[value='"+tentcon.flat_no+"']").attr('selected', true);},2000);
+				}
+			}			
+			
+			$("#villa").addClass("div_disable");
+			$("#villa").removeClass("div_enable");				
+			
+			$("#flat").removeClass("div_disable");
+			$("#flat").addClass("div_enable");	
+		}
+		if(tentcon.unit_type == 2){
+			//$("input:radio[name=prop_ttype]:nth(1)").checked = true;
+			if(getListBoxUpdate('#villa_no',"property/getlbvilla")){
+				setTimeout(function(){
+					$("#villa_no option[value='"+tentcon.unit_id+"']").attr('selected', true);
+					},2000);
+			}
+			
+		}
+		if(tentcon.unit_type == 3){
+			//$("input:radio[name=prop_ttype]:nth(2)").checked = true;
+			if(getListBoxUpdate('#wh_no',"property/getlbwarehouse")){
+				setTimeout(function(){
+					$("#wh_no option[value='"+tentcon.unit_id+"']").attr('selected', true);}
+					,2000);
+			}
+			
+			$("#villa").addClass("div_disable");
+			$("#villa").removeClass("div_enable");				
+			
+			$("#warehouse").removeClass("div_disable");
+			$("#warehouse").addClass("div_enable");	
+		}
+		$("input:radio[name=prop_ttype][value="+tentcon.unit_type+"]").attr("checked",true);
+		$("#payment_mode option[value='"+tentcon.mode_type+"']").attr('selected', true);
+		$("#tenant_rent").val(tentcon.rent_value);
+		$("#tenant_rent_type option[value='"+tentcon.rent_frequency+"']").attr('selected', true);		
+		
+		var csd = new Date(tentcon.contract_startdate);
+		var csdText = csd.getDate()+"-"+csd.getMonth()+"-"+csd.getFullYear();
+		$("#tentcont_sd").val(csdText);
+		
+		var csd = new Date(tentcon.contract_enddate);
+		var csdText = csd.getDate()+"-"+csd.getMonth()+"-"+csd.getFullYear();
+		$("#tentcont_ed").val(csdText);
+	}
+	
 });
 </script>
 
@@ -43,19 +121,21 @@ $(function () {
 										  <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property" id="home-tab" role="tab">Home</a></li>
                                           <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addproperty" role="tab" id="profile-tab">New Building/Villa/Warehouse</a></li>
                                           <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addflat" role="tab" id="profile-tab">New Flat/Shop</a></li>
-                                          <li role="presentation" class="active"><a href="" role="tab" id="profile-tab">New Tenant</a></li>
+                                          <li role="presentation" class="active"><a href="" role="tab" id="profile-tab">Update Tenant</a></li>
 									</ul>
                                    
                                     <div id="myTabContent" class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
-                                         <?php echo form_open_multipart('property/addtenant'); ?>
-                                         	<h2 class="h2.-bootstrap-heading group-mail">New Tenant</h2>
+                                         <?php echo form_open('property/updatetenant'); ?>
+                                         	<h2 class="h2.-bootstrap-heading group-mail">Update Tenant</h2>
+                                            <input type="hidden" name="tenant_id" id="tenant_id" value="" />
+                                        	<input type="hidden" name="contract_id" id="contract_id" value="" />
                                             <div class="row">
                                                 <div class="col-xs-6 col-md-4 group-mail">
                                                 <label for="prop_ttype">Property Type</label>
-                                                <div class="radio block"><input id="prop_ttype" name="prop_ttype" type="radio" value="1"  /><label>Building - FLAT/Shop</label></div>
-                                                <div class="radio block"><input id="prop_ttype" name="prop_ttype" type="radio" value="2" checked/><label>Villa</label></div>
-                                                <div class="radio block"><input id="prop_ttype" name="prop_ttype" type="radio" value="3" /><label> Warehouse</label></div>
+                                                <div class="radio block"><input id="prop_ttype" name="prop_ttype" type="radio" value="1" disabled /><label>Building - FLAT/Shop</label></div>
+                                                <div class="radio block"><input id="prop_ttype" name="prop_ttype" type="radio" value="2" disabled/><label>Villa</label></div>
+                                                <div class="radio block"><input id="prop_ttype" name="prop_ttype" type="radio" value="3" disabled/><label> Warehouse</label></div>
                                                 </div>
                                                 <div class="col-xs-6 col-md-4 group-mail">
                                                 </div>
@@ -68,7 +148,7 @@ $(function () {
                                                 <div class="row">
                                                     <div class="col-xs-6 col-md-4 group-mail">
                                                     <label for="villa_no">Villa No</label>
-                                                    <select class="form-control1" id="villa_no" name="villa_no">
+                                                    <select class="form-control1" id="villa_no" name="villa_no" disabled>
                                                       <option value="">-- select one --</option>
                                                       <option value="Villa A101">Villa A101</option>
                                                       <option value="Villa A102">Villa A102</option>
@@ -91,7 +171,7 @@ $(function () {
                                                 <div class="row">
                                                     <div class="col-xs-6 col-md-4 group-mail">
                                                     <label for="flat_name">Building Name</label>
-                                                    <select class="form-control1" id="flat_name" name="flat_name">
+                                                    <select class="form-control1" id="flat_name" name="flat_name" disabled>
                                                       <option value="">-- select one --</option>
                                                       <option value="building1">Building 1</option>
                                                       <option value="building2">Building 2</option>
@@ -101,7 +181,7 @@ $(function () {
                                                     </div>
                                                     <div class="col-xs-6 col-md-4 group-mail">
                                                     <label for="flat_no">Flat No</label>
-                                                    <select class="form-control1" id="flat_no" name="flat_no">
+                                                    <select class="form-control1" id="flat_no" name="flat_no" disabled>
                                                         <option value="">-- select one --</option>
                                                     </select>
                                                     </div>
@@ -116,7 +196,7 @@ $(function () {
                                                 <div class="row">
                                                     <div class="col-xs-6 col-md-4 group-mail">
                                                     <label for="wh_no">Warehouse No</label>
-                                                    <select class="form-control1" id="wh_no" name="wh_no">
+                                                    <select class="form-control1" id="wh_no" name="wh_no" disabled>
                                                       <option value="">-- select one --</option>
                                                       <option value="building1">Warehouse 1</option>
                                                       <option value="building2">Warehouse 2</option>
@@ -157,25 +237,6 @@ $(function () {
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-                                            <!--div class="row">
-                                                <div class="col-xs-6 col-md-4 group-mail">
-                                                <label for="tent_rent_amt">Rent Value (AED)</label>
-                                                <input id="tent_rent_amt" name="tent_rent_amt" class="form-control" required type="text" placeholder="123">
-                                                </div>
-                                                <div class="col-xs-6 col-md-4 group-mail">
-                                                	<label for="tentcont_sd">Contract Start Date</label>
-                                                    <div class="input-group">
-                                                        <input id="tentcont_sd" name="tentcont_sd" class="form-control" type="text" required placeholder="dd-mm-yyyy" /><span class="input-group-addon"><a onClick="javascript:$('#tentcont_sd').focus();"><img width="21" height="20" alt="DT" src="<?php echo base_url(); ?>assets/images/date.png"></a></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-6 col-md-4 group-mail">
-                                                	<label for="tentcont_ed">Contract End Date</label>
-                                                    <div class="input-group">
-                                                        <input id="tentcont_ed" name="tentcont_ed" class="form-control" type="text" required placeholder="dd-mm-yyyy" /><span class="input-group-addon"><a onClick="javascript:$('#tentcont_ed').focus();"><img width="21" height="20" alt="DT" src="<?php echo base_url(); ?>assets/images/date.png"></a></span>	
-                                                    </div>
-                                                </div>
-                                            </div-->
                                             
                                             <div class="row">
                                                 <div class="col-xs-6 col-md-4 group-mail">
@@ -245,7 +306,7 @@ $(function () {
                                                 &nbsp;
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <!--div class="row">
                                                 <div class="col-xs-6 col-md-4 group-mail">
                                                 <label for="idproof_type">ID Proof Type</label>
                                                 <select class="form-control1" id="idproof_type" name="idproof_type">
@@ -269,7 +330,7 @@ $(function () {
                                                 <label for="passport_doc">Upload ID Proof Document</label>
                                                 <input type="file" id="passport_doc" name="passport_doc">
                                                 </div>
-                                            </div>
+                                            </div-->
                                             
                                             
                                             <div class="row">
@@ -320,7 +381,7 @@ $(function () {
                                             <div class="panel-footer">
                                                 <div class="row">
                                                     <div class="col-sm-8 col-sm-offset-2">
-                                                        <button id="tenant_save" name="tenant_save" class="btn-primary btn">Save</button>
+                                                        <button id="tenant_up_save" name="tenant_up_save" class="btn-primary btn">Save</button>
                                                         <button class="btn-inverse btn" type="reset">Reset</button>
                                                     </div>
                                                 </div>

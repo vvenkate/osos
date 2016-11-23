@@ -53,7 +53,10 @@ class MainTicket extends CI_Controller {
 			
 			if($val->assigned_user_id == 0){
 				$sendData[$i]["assigned_to"] = "Mani";
+			}else{
+					$sendData[$i]["assigned_to"] = $val->assigned_user_id;
 			}
+			
 			$sendData[$i]["id"] = $val->id;
 			$i++;
 		}

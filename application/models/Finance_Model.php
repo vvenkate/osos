@@ -27,6 +27,7 @@ class Finance_Model extends CI_Model {
 			if($this->input->post('prop_ftype')==3){
 				$insdata['property_no'] = $this->input->post('wh_no');
 			}
+			$insdata['category'] = $this->input->post('exp_cat');
 		}
 		$insdata['description'] = $this->input->post('exp_desc');
 		$ced = strtotime ($this->input->post('expense_date'));
@@ -84,7 +85,7 @@ class Finance_Model extends CI_Model {
 	}
 	
 	//to get the all the expense details
-	public function getListFinance($datatype = "expense"){
+	public function getListFinance($datatype = "expense",$where=""){
 		$this->db->select('*');
 		if($datatype == "expense"){
 			$this->db->from('expense_detail');
@@ -92,7 +93,10 @@ class Finance_Model extends CI_Model {
 		if($datatype == "income"){
 			$this->db->from('rent_income');
 		}
-		
+		if($where != ""){
+			$this->db->where($where);
+		}
+		$this->db->order_by('modified_date',"desc");
 		$query = $this->db->get();
 		
         if ($query->num_rows() > 0) {
@@ -104,7 +108,7 @@ class Finance_Model extends CI_Model {
 	}
 	
 	
-	public function getListExpFinance($fdate="",$edate=""){
+	public function getListExpFinance($fdate="",$edate="",$exp_type=""){
 		$this->db->select('*');
 		$this->db->from('expense_detail');
 		
@@ -116,6 +120,9 @@ class Finance_Model extends CI_Model {
 			$edatetmp = date("Y-m-d",strtotime($edate));
 			$this->db->where("expense_date <=",$edatetmp);
 		}
+		if($exp_type != ""){
+			$this->db->where("expense_type =",$exp_type);
+		}
 		$query = $this->db->get();
 		
         if ($query->num_rows() > 0) {
@@ -126,7 +133,7 @@ class Finance_Model extends CI_Model {
 		}
 	}
 	
-	public function getListIncFinance($fdate="",$edate=""){
+	public function getListIncFinance($fdate="",$edate="",$pay_mode=""){
 		$this->db->select('*');
 		$this->db->from('rent_income');
 		
@@ -137,6 +144,9 @@ class Finance_Model extends CI_Model {
 		if($edate != ""){
 			$edatetmp = date("Y-m-d",strtotime($edate));
 			$this->db->where("paid_date <=",$edatetmp);
+		}
+		if($pay_mode != ""){
+			$this->db->where("payment_mode =",$pay_mode);
 		}
 		$query = $this->db->get();
 		

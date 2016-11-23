@@ -11,7 +11,7 @@ class Finance extends CI_Controller {
 		parent::__construct ();
 		ini_set('display_errors', true);
 		$this->load->model( 'Finance_Model', 'finance');
-		$this->load->model ( 'Property_Model','property_model');
+		$this->load->model ('property_model');
 // 		$this->load->model( 'user', '', TRUE );
 // 		$this->load->model( 'department', 'department');
 // 		$this->load->model( 'roles', 'roles');		

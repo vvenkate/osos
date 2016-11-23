@@ -51,6 +51,7 @@ class Property extends CI_Controller {
 						$tentData[$i]['std'] = date("d-M-Y",$edate);
 						$edate = strtotime($detval->contract_enddate);
 						$tentData[$i]['etd'] = date("d-M-Y",$edate);
+						$tentData[$i]['id'] = $detval->id;
 					}
 				}
 				$i++;
@@ -159,6 +160,76 @@ class Property extends CI_Controller {
 				}
 			}
 		}
+	}
+	
+	public function updatetenant(){
+		$this->load->helper(array('form'));
+		$a = "";
+		$a['nationalities_list'] = $this->country->getNationalities();
+		
+		if($this->input->get('id') != ""){
+			$where = "";
+			$where['id'] = $this->input->get('id');
+			$arrData = $this->property_model->getTenantDetails($where);
+			$json = "";
+			
+			if($arrData){
+				$a["json"] = json_encode($arrData[0]);
+				$where = "";
+				$where['tenant_id'] = $this->input->get('id');
+				$where['status'] = 1;
+				
+				$arrContract = $this->property_model->getTenantContractw($where);
+				if($arrContract){
+					$a["jsoncontract"] = json_encode($arrContract[0]);
+				}
+			}else{
+				$a["json"] = false;
+				$a["jsoncontract"] = false;
+			}
+			
+			$this->load->view('property_tenant_update', $a);
+		}
+		else{
+			
+			$this->load->library ( 'form_validation' );
+		
+			$this->form_validation->set_rules ( 'tentcont_sd', 'tentcont_sd', 'trim|required' );
+			
+			if ($this->form_validation->run () == TRUE) {
+				if($this->property_model->update_tenant()){				
+					redirect ( 'property', 'refresh' );
+				}else{
+					$a["json"] = json_encode($_POST);
+					$this->load->view('property_tenant_update', $a);
+				}
+			}
+		}
+	}
+	
+	//get list of Subproperty for a Bulding as View
+	public function buildingsublist(){
+		$this->load->helper(array('form'));
+		
+		if($this->input->get('id') != ""){
+			$id = $this->input->get('id');
+			$sendData="";
+			
+			$arrData = $this->property_model->getListSubProperty($id);
+			if($arrData){
+				$i = 0;
+				foreach($arrData as $data){
+					$sendData[$i]['type'] = $data->flat_type;
+					$sendData[$i]['floorno'] = $data->floor_no;
+					$sendData[$i]['flatno'] = $data->flat_no;
+					$sendData[$i]['occupied'] = $data->occupied;
+					$sendData[$i]['id'] = $data->id;
+					$i++;
+				}
+			}
+		}
+		$data = array("sendData" => $sendData);
+		$this->load->view('property_flat_list', $data);
 	}
 	
 	//get list of villa to present in list page
@@ -274,6 +345,7 @@ class Property extends CI_Controller {
 	
 	//to get the builder details in JSON.
 	function getlbbuilder(){
+		
 		$dataArray = $this->property_model->get_building();
 		$sendData="";
 		$i =0;
@@ -296,7 +368,12 @@ class Property extends CI_Controller {
 	
 	//to get the villa details in JSON.
 	function getlbvilla(){
-		$dataArray = $this->property_model->get_villa();
+		$arrwhere = "";
+		
+		if($_GET['occupy'] == 2){
+			$arrwhere['occupied'] = "NO";
+		}
+		$dataArray = $this->property_model->get_villa($arrwhere);
 		$sendData="";
 		$i =0;
 		foreach($dataArray as $val){
@@ -317,7 +394,12 @@ class Property extends CI_Controller {
 	
 	//to get the warehouse details in JSON.
 	function getlbwarehouse(){
-		$dataArray = $this->property_model->get_warehouse();
+		$arrwhere = "";
+		
+		if($this->input->get('occupy') == 2){
+			$arrwhere['occupied'] = "NO";
+		}
+		$dataArray = $this->property_model->get_warehouse($arrwhere);
 		$sendData="";
 		$i =0;
 		foreach($dataArray as $val){

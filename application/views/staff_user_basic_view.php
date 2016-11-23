@@ -171,14 +171,6 @@ $(function () {
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-md-4 group-mail">
-                                            <label for="cstate">State/Province</label>
-                                            <input id="cstate" name="cstate" class="form-control" required type="text" placeholder="Address">
-                                            </div>
-                                            <div class="col-xs-6 col-md-4 group-mail">
-                                            <label for="czipcode">Zipcode</label>
-                                            <input id="czipcode" name="czipcode" class="form-control" required type="text" placeholder="">
-                                            </div>
-                                            <div class="col-xs-6 col-md-4 group-mail">
                                             <label for="ccountry">Country</label>
                                             <select class="form-control1" name="ccountry">
                                                 <option value="">Country...</option>
@@ -190,6 +182,14 @@ $(function () {
 		                                		endforeach;
 		                            			?>
                                              </select>
+                                            </div>
+                                            <div class="col-xs-6 col-md-4 group-mail">
+                                            <!--label for="cstate">State/Province</label>
+                                            <input id="cstate" name="cstate" class="form-control" required type="text" placeholder="Address"-->
+                                            </div>
+                                            <div class="col-xs-6 col-md-4 group-mail">
+                                            <!--label for="czipcode">Zipcode</label>
+                                            <input id="czipcode" name="czipcode" class="form-control" required type="text" placeholder=""-->
                                             </div>
                                         </div>
                                         <h2 class="h2.-bootstrap-heading group-mail">Organization Details</h2>

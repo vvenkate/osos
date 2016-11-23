@@ -56,7 +56,19 @@ $(function () {
                                 <label>To : <?php echo $search_fv["fin_data_to"];?></label>
                             </div>
                         </div>
-                        <?php }?>
+                        <?php if($search_fv["finreport_type"] == "income"){ ?>
+                        <div class="datarow row commonsize">
+                        	<div class="col-md-4">
+                                <label>Payment Mode: <?php echo $search_fv["income_pm"];?></label>
+                            </div>
+                            <div class="col-md-4">
+                            	
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                        </div>
+                        <?php }}?>
                         <!-- Finance search value End value-->
                         <!--Finance Data start-->
                         <?php if($sendData){ ?>

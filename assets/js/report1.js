@@ -1,5 +1,5 @@
 // Finance Management activity Document
-var hostname = "localhost";
+var hostname = "s442410310.onlinehome.us/osos";
 
 function divDisplay(elementid){
 	$(elementid).removeClass("div_disable");
@@ -98,7 +98,7 @@ $(document).ready( function() {
 			return false;
 		}else{
 			//$.post("http://"+hostname+"/OSOS/index.php/report/financereport");
-			var frmmurl = "http://"+hostname+"/OSOSFinal/index.php/report/financereport";
+			var frmmurl = "http://"+hostname+"/OSOS/index.php/report/financereport";
 			$("#genfrmreport").attr('action',frmmurl).submit();
 			return true;
 		}
@@ -111,7 +111,7 @@ $(document).ready( function() {
 			return false;
 		}else{
 			//$.post("http://"+hostname+"/OSOS/index.php/report/financereport");
-			var frmmurl = "http://"+hostname+"/OSOSFinal/index.php/report/propertyreport";
+			var frmmurl = "http://"+hostname+"/OSOS/index.php/report/propertyreport";
 			$("#genfrmreport").attr('action',frmmurl).submit();
 			return true;
 		}
@@ -127,7 +127,7 @@ $(document).ready( function() {
 		if(msg.length >=1){
 			return false;
 		}else{
-			var frmmurl = "http://"+hostname+"/OSOSFinal/index.php/report/ticketreport";
+			var frmmurl = "http://"+hostname+"/OSOS/index.php/report/ticketreport";
 			$("#genfrmreport").attr('action',frmmurl).submit();
 			return true;
 		}

@@ -13,9 +13,14 @@ class Ticket extends CI_Controller {
 	}
 	
 	function index(){
-		$dataArray = $this->mainticket_model->getTicketList();
+		$dataArray = $this->mainticket_model->getTicketList();	
+		
 		$sendData="";
 		$i =0;
+		/*var_dump($dataArray);
+		exit;*/
+		
+		if(count($dataArray) > 1) { 
 		foreach($dataArray as $val){
 			$sendData[$i]["summary"]= $val->ticket_summary;
 			
@@ -64,22 +69,152 @@ class Ticket extends CI_Controller {
 			$sendData[$i]["id"] = $val->id;
 			$i++;
 		}
-		
 		$data = array("sendData" => $sendData);
+		}
+		else {
+			$data = "";
+		
+		}		
 		$this->load->view('mainticket_list', $data);
 	}
 	
 	function viewticket(){
-		$ticket_id = $_GET['id'];
-		$dataArray = $this->property_model->getPropertyDetails($property_id,$type);
+		$ticket_id= "";
+		$arrCond="";
 		
+		if(isset($_GET['id'])){
+			$ticket_id = $_GET['id'];
+		}
+		
+		if($ticket_id == "" & isset($_POST['id'])){
+			$ticket_id = $_POST['id'];
+		}
+		if($ticket_id != ""){
+			$arrCond['id'] = $ticket_id;
+		}
+		$ticketMaintenance = $this->mainticket_model->getTicketList($arrCond);
+		if($ticketMaintenance){
+			$data['summary'] = $ticketMaintenance[0]->ticket_summary;
+			
+			// Get the Priority Info
+			$priorityData = $this->mainticket_model->get_prior($ticketMaintenance[0]->priority_type);
+			
+			if($priorityData)
+				$data['priority'] = $priorityData[0]->description;
+			
+			$issueData = $this->mainticket_model->get_issuetype($ticketMaintenance[0]->issue_type);
+			$data['issue_type'] = $issueData[0]->description;
+			
+			$unitData = $this->mainticket_model->get_unittype($ticketMaintenance[0]->unit_type);
+			$data['unit_type'] = $unitData[0]->description;
+			
+			$type = $unitData[0]->description;
+			
+			$pridata = $this->property_model->getPropertyDetails($ticketMaintenance[0]->unit_number, $ticketMaintenance[0]->unit_type);
+			
+			if($type == "Building" || $type == "1"){
+				$data['address'] = $pridata[0]->name." ".$pridata[0]->builder_number." ".$pridata[0]->builder_address;
+			}else if($type == "Villa" || $type == "2"){
+				$data['address'] = $pridata[0]->name." ".$pridata[0]->no." ".$pridata[0]->address;				
+			}else if($type == "Warehouse" || $type == "3"){
+				$data['address'] = $pridata[0]->name." ".$pridata[0]->number." ".$pridata[0]->address;				
+			}
+
+			$data['ticket_number']	= $ticketMaintenance[0]->id;
+			$data['flat_no'] 		= $ticketMaintenance[0]->flat_no;
+			
+			$data['con_number'] 		= $ticketMaintenance[0]->contact_number;
+			$data['alt_contact_number'] 		= $ticketMaintenance[0]->alternate_contact_number;
+			
+			$created_att = $ticketMaintenance[0]->created_at;
+			
+			//strtotime($date)
+			$convert_date = strtotime($created_att);
+			$month = date('M',$convert_date);
+			$year = date('Y',$convert_date);
+			//$name_day = date('l',$convert_date);
+			$day = date('j',$convert_date);
+			
+			$data['date'] = $day.'-'.$month.'-'.$year;
+			
+			// $temparr[] = array('status' => 200, 'message' => 'success', 'data' => $data);
+			$temparr[] = $data;						
+			//add the header here
+			
+			header('Content-Type: application/json');
+			echo json_encode( array('status' => 200, 'message' => 'success', 'data' => $temparr) );
+			
+		} else {
+			$arr = array('status' => 404, 'message' => 'No Tickets has been found for the user', 'data_message' => 'No Tickets has been found for the user');
+			header('Content-Type: application/json');
+			echo json_encode( $arr );
+		}
 	}
 	
 	//function viewTicketByUserId($assigned_user_id){
 	function viewTicketByUserId(){
 		
-		$ticketMaintenance = $this->mainticket_model->getTicketDetailByUser($_POST['user_id'], $_POST['status']);
+// 		$priority = isset($_POST['priority']) ? $_POST['priority'] : 1;
+// 		$status   = isset($_POST['status']) ? $_POST['status'] : 'New';
+				
+// 		$priority_list = split(",", $priority);
+// 		$status_list = split(",", $status);
 		
+// 		var_dump($priority);
+// 		var_dump($status);
+		
+// 		die(0);
+
+		/// Checks for Active
+		
+		$actionStatus = '';
+		$priotityStatus = '';
+		
+		if($_POST['status'] == 'Active') {
+			//$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($_POST['user_id'], $priority_list, true);
+			//$status_list[0] = $_POST['status'];
+			$actionStatus = 'Active';
+			$status_list = array('New', 'Inprogress');
+		}
+		
+		if($_POST['status'] == 'Inactive') {
+			//$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($_POST['user_id'], $priority_list, true);
+			//$status_list[0] = $_POST['status'];
+			$actionStatus = 'Inactive';
+			$status_list = array('Fixed', 'Closed');
+		}
+
+		//echo $actionStatus;
+		
+		if($actionStatus != 'Inactive' && $actionStatus != 'Active'){
+			if(strpos( $_POST['status'], ',')){
+				$status_list = explode("," , $_POST['status']);
+				$actionStatus = 'MUL';
+			} else {
+				$status_list[0] = $_POST['status'];
+				$actionStatus = $_POST['status'];
+			}
+		}
+		
+		/// Checks for Priority
+		if($_POST['priority'] == 'All') {
+			//$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($_POST['user_id'], $priority_list, true);
+			//$status_list[0] = $_POST['status'];
+			$priority_list = array(1,2);
+			$priorityStatus = 'All';
+			//$status_list = array('Fixed', 'Closed');
+		} else {
+			if(strpos( $_POST['priority'], ',')){
+				$priority_list = explode("," , $_POST['priority']);
+				$priotityStatus = 'MUL';
+			}else{
+				$priority_list[0] = $_POST['priority'];
+				$priotityStatus =  $_POST['priority'];
+			}
+		}
+		
+		$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($_POST['user_id'], count($status_list), $status_list, count($priority_list), $priority_list);
+				
 		$temparr = array();
 		
 		if($ticketMaintenance){
@@ -412,8 +547,16 @@ class Ticket extends CI_Controller {
 	
 	//to get flat for specific bulding.
 	function getlbflat(){
-		$val = $this->input->get("id");
-		$dataArray = $this->mainticket_model->getFlat($val);
+		$arrwhere = "";
+		
+		if($this->input->get("id") != ""){
+			$arrwhere['id'] = $this->input->get("id");
+		}
+		
+		if($this->input->get("occupy") == 2){
+			$arrwhere['occupied'] = "NO";
+		}
+		$dataArray = $this->mainticket_model->getFlat($arrwhere);
 		
 		$sendData="";
 		$i =0;

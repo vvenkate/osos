@@ -40,7 +40,7 @@ $(function () {
 								<div class="bs-example bs-example-tabs" role="tabpanel"
 									data-example-id="togglable-tabs">
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
-										   <li role="presentation"><a href="<?php echo base_url(); ?>index.php/finance" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Finance</a></li>
+										   <li role="presentation"><a href="<?php echo base_url(); ?>index.php/finance" id="home-tab" role="tab">Finance</a></li>
                       <li role="presentation" class="active"><a href="<?php echo base_url(); ?>index.php/finance/addexpense" role="tab" id="profile-tab">New Expenses</a></li>
                       <li role="presentation"><a href="<?php echo base_url(); ?>index.php/finance/addincome" role="tab" id="profile-tab">New Income</a></li>
 									</ul>
@@ -71,6 +71,12 @@ $(function () {
                                                 <div class="radio block"><input id="prop_ftype" name="prop_ftype" type="radio" value="3" /><label> Warehouse</label></div>
                                                 </div>
                                                 <div class="col-xs-6 col-md-4 group-mail">
+                                                	<label for="exp_cat">Category/Expense Type</label>
+                                                    <select class="form-control1" id="exp_cat" name="exp_cat">
+                                                      <option value="">-- select one --</option>
+                                                      <option value="Electrical">Electrical and Eletronics</option>
+                                                      <option value="Plumbing">Plumbing Hardwares</option>
+                                                     </select>
                                                 </div>
                                                 <div class="col-xs-6 col-md-4 group-mail">
                                                 </div>

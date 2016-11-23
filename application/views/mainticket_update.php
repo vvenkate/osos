@@ -81,16 +81,17 @@ $(document).ready( function() {
 			getListBoxUpdate('#maint_prop_unit_no',"property/getlbwarehouse");
 		}
 		
-		$("#maint_prop_type1").val(upprop.unit_type).prop('checked', true);
-		$("#maint_prop_unit_no").val(upprop.unit_number);
+		//$("input:radio[name=maint_prop_type1][val="+upprop.unit_type+"]").attr('checked', true);
+		$("input:radio[name=maint_prop_type1][value="+upprop.unit_type+"]").attr("checked",true);
 		$("#ticket_id").val(upprop.id);
 		
 		console.log(upprop.issue_type);
 		setTimeout(function(){
-		$("#issue_type").val(upprop.issue_type);
-		$("#maint_prior").val(upprop.priority_type);
-		$("#maint_assigned").val(upprop.assigned_user_id);
-		$("#ticket_status").val(upprop.ticket_status);
+			$("#maint_prop_unit_no").val(upprop.unit_number);
+			$("#issue_type").val(upprop.issue_type);
+			$("#maint_prior").val(upprop.priority_type);
+			$("#maint_assigned").val(upprop.assigned_user_id);
+			$("#ticket_status").val(upprop.ticket_status);
 		},2000);
 	}
 });

@@ -122,6 +122,84 @@ class Property_Model extends CI_Model {
 		}
 	}
 	
+	//update the tenant details...
+	public function update_tenant(){
+		//based on property type add villa
+		$insdata= array();
+		
+		$insdata['first_name'] = $this->input->post('first_name');
+		$insdata['middle_name'] = $this->input->post('mid_name');
+		$insdata['last_name'] = $this->input->post('last_name');
+		$insdata['gender'] = $this->input->post('gender');
+		$dobtime = strtotime ($this->input->post('dob'));
+		$insdata['dob'] = date("Y-m-d",$dobtime);
+		$insdata['mobile_no'] = $this->input->post('contact_no');
+		$insdata['marital_status'] = $this->input->post('mstatus');
+		$insdata['nationality'] = $this->input->post('nationality');
+		$insdata['org_name'] = $this->input->post('company_name');
+		$insdata['tenant_designation'] =$this->input->post('workas');
+		
+		$this->db->where('id',$this->input->post('tenant_id'));
+		
+		if($this->db->update('tenant_details',$insdata)){
+			$insdata = "";
+			$contract_id = $this->input->post('contract_id');
+			
+			$insdata['rent_value'] = $this->input->post('tenant_rent');
+			$insdata['rent_frequency'] = $this->input->post('tenant_rent_type');
+			$insdata['mode_type'] = $this->input->post('payment_mode');
+			$csd = strtotime ($this->input->post('tentcont_sd'));
+			$insdata['contract_startdate'] = date("Y-m-d ",$csd)."00:00:00";
+			$ced = strtotime ($this->input->post('tentcont_ed'));
+			$insdata['contract_enddate'] = date("Y-m-d ",$ced)."23:59:59";
+			$insdata['modified_date'] = date("Y-m-d H:i:s");
+			
+			$this->db->where('id',$contract_id);
+			
+			if($this->db->update('tenant_contract',$insdata)){
+				return true;
+			}
+		}else {
+			return false;
+		}
+	}
+	
+	public function getTenantDetails($where = ""){
+		$this->db->select('*');
+		$this->db->from('tenant_details');
+		if($where != ""){
+			$this->db->where($where);
+		}
+		$query = $this->db->get();
+		
+        if ($query->num_rows() > 0) {
+			$row = $query->result();
+            return $row;
+        } else {
+            return false;
+        }
+	}
+	
+	public function getTenantContractw($where = ""){
+		$this->db->select('*');
+		$this->db->from('tenant_contract');
+		
+		if($where != ""){
+			$this->db->limit(1);
+			$this->db->where($where);
+		}
+		
+		
+		$query = $this->db->get();
+		
+        if ($query->num_rows() > 0) {
+			$row = $query->result();
+            return $row;
+        } else {
+            return false;
+        }
+	}
+	
 	//to get list of building, to display in property list page
 	public function getListBuilding($type=""){
 		
@@ -207,10 +285,14 @@ class Property_Model extends CI_Model {
 	}
 	
 	//give just the columns need for the list box.
-	public function get_villa(){
+	public function get_villa($arrwhere=""){
 		
 		$this->db->select('id,name');
 		$this->db->from('villa_details');
+		
+		if($arrwhere != ""){
+			$this->db->where($arrwhere);
+		}
 		$this->db->order_by('name',"asc");
 		$query = $this->db->get();
 		
@@ -223,10 +305,14 @@ class Property_Model extends CI_Model {
 	}
 	
 	//give just the columns need for the list box.
-	public function get_warehouse(){
-		
+	public function get_warehouse($arrwhere=""){
+
 		$this->db->select('id,name');
 		$this->db->from('warehouse_details');
+		
+		if($arrwhere != ""){
+			$this->db->where($arrwhere);
+		}
 		$this->db->order_by('name',"asc");
 		$query = $this->db->get();
 		
@@ -278,11 +364,11 @@ class Property_Model extends CI_Model {
 			$this->db->from('builder_resedential');
 		}
 		
-		if(count($arrwhere) > 0){
+		if(count($arrwhere) > 0 && $arrwhere != ""){
 			$this->db->where($arrwhere);
 		}
 		$query = $this->db->get();
-		
+		//echo $this->db->last_query();
         if ($query->num_rows() > 0) {
 			$row = $query->result();
 			return $row;
@@ -291,11 +377,42 @@ class Property_Model extends CI_Model {
 		}
 	}
 	
+	//give join rent income and property table with dynamic condition
+	public function getPropertyIncomeDetails($type,$arrwhere=""){
+		$this->db->select('*');
+		
+		if($type == "Villa" || $type == "2"){
+			$this->db->from('villa_details');
+			$this->db->join('rent_income','villa_details.id = rent_income.property_no and rent_income.property_type = 2','left');
+		}else if($type == "Warehouse" || $type == "3"){
+			$this->db->from('warehouse_details');
+			$this->db->join('rent_income','rent_income.property_no != warehouse_details.id and rent_income.property_type = 3','left');
+		}else if($type == "flat" || $type == "4"){
+			$this->db->from('builder_resedential');
+			$this->db->join('rent_income','rent_income.property_no != builder_resedential.builder_id and rent_income.flat_no = builder_resedential.id and rent_income.property_type = 1','left');
+		}
+		
+		$this->db->where($arrwhere);
+		
+		$query = $this->db->get();
+		//echo $this->db->last_query();
+			
+        if ($query->num_rows() > 0) {
+			$row = $query->result();
+			return $row;
+		}else {
+			return false;
+		}
+		
+	}
+	
 	//get list of sub property of a building
 	public function getListSubProperty($builder_id){
 		$this->db->select('*');
 		$this->db->from('builder_resedential');
-		$this->db->where('builder_id',$id);		
+		
+		if($builder_id != "")
+			$this->db->where('builder_id',$builder_id);		
 		
 		$query = $this->db->get();
 		

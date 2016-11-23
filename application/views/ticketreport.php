@@ -46,14 +46,14 @@ $(function () {
 						<?php if($search_fv) {?>
                         <div class="datarow row commonsize">
                         	<div class="col-md-4">
-                                <label>Report Type: Property Report</label>
+                                <label>Report Type: Maintenance Report</label>
                             </div>
                             <div class="col-md-4">
-                            	<label>Property Type: <?php echo $search_fv["propreport_type"];?></label>
+                            	<label>Ticket Status: <?php echo $search_fv["ticket_status"];?></label>
                             </div>
                             <div class="col-md-4">
-                            	<label>Country : <?php echo $search_fv["prop_country"];?></label><br/>
-                                <label>Occupied Status : <?php echo $search_fv["prop_occupied"];?></label>
+                            	<label>From : <?php echo $search_fv["ticket_open_date"];?> &nbsp; To : <?php echo $search_fv["ticket_open_date_to"];?></label><br/>
+                                <label>Assigned to User : <?php echo $search_fv["by_user_id"];?></label>
                             </div>
                         </div>
                         <?php }?>
@@ -72,51 +72,56 @@ $(function () {
                             </div>
                         </div>
                         <div class="row show-grid">
-                            <div class="col-md-1">
-                                S.No
-                            </div>
                             <div class="col-md-2">
-                                Property Type
-                            </div>
-                            <div class="col-md-2">
-                                Property Name
+                                Ticket No<br/>
+                                &nbsp;
                             </div>
                             <div class="col-md-3">
-                                Building/Villa/Warehouse No
+                                Summary<br/>
+                                &nbsp; 
+                            </div>
+                            <div class="col-md-1">
+                                Priority<br/>
+                                &nbsp;
                             </div>
                             <div class="col-md-2">
-                                Country
+                                Building-Villa/Flat/Warehouse
                             </div>
                             <div class="col-md-2">
-                                Occupied Status
+                                Creation Date<br/>
+                                &nbsp;
+                            </div>
+                            <div class="col-md-2">
+                                Assigned to<br/>
+                                &nbsp;
                             </div>
                         </div>
                         <?php $i =1;
-                         foreach($sendData as $val){?>
+                             foreach($sendData as $val){?>
                         <div class="datarow row commonsize">
-                            <div class="col-md-1">
-                                <?php echo $i;?>
-                            </div>
                             <div class="col-md-2">
-                                <?php echo $val['type']; ?>
-                            </div>
-                            <div class="col-md-2">
-                                <?php echo $val['name'];?>
+                                <?php echo $val["id"]; ?>
                             </div>
                             <div class="col-md-3">
-                                <?php echo $val['no'];?>
+                                <?php echo $val["summary"]; ?>
+                            </div>
+                            <div class="col-md-1">
+                                <?php echo $val["priority"]; ?>
                             </div>
                             <div class="col-md-2">
-                                <?php echo $val['country'];?>
+                                <?php echo $val["unit"]; ?>
                             </div>
                             <div class="col-md-2">
-                               <?php echo $val['os']; ?>
+                                <?php echo $val["date"]; ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?php echo $val["assigned_to"]; ?>
                             </div>
                         </div>
                         <?php $i++; }}else{?>
                         <div class="row commonsize">
                             <div class="col-md-1"></div>
-                            <div class="col-md-10" align="center">-- No Property Found --</div>
+                            <div class="col-md-10" align="center">-- No Ticket Found --</div>
                             <div class="col-md-1"></div>
                         </div>
                         <?php }?>
