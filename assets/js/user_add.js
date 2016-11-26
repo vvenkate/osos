@@ -96,7 +96,7 @@ $(document).ready( function() {
 			$("#ccity").removeClass("textborderred");
 		}
 		
-		state = $("#cstate").val();
+		/*state = $("#cstate").val();
 		if(state.length <= 1){
 			$("#cstate").addClass("textborderred");
 			msg = "Please fill the State";
@@ -110,7 +110,7 @@ $(document).ready( function() {
 			msg = "Please fill the Zipcode";
 		}else{
 			$("#czipcode").removeClass("textborderred");
-		}
+		}*/
 		
 		empid = $("#empid").val();
 		if(empid.length <= 1){

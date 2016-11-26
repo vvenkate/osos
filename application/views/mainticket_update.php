@@ -23,7 +23,7 @@ $(function () {
 </script>
 <script language="javascript" type="text/javascript">
 //funciton to display the hiddent div or element
-var hostname = "localhost";
+var hostname = "s442410310.onlinehome.us/osos";
 
 function divDisplay(elementid){
 	$(elementid).removeClass("div_disable");
@@ -36,7 +36,7 @@ function divDisplay(elementid){
 		$(listboxid+' option').remove();
 		$(listboxid).append($('<option/>',{value:"",text:"---None---"}));
 
-		$.ajax({url: "http://"+hostname+"/OSOSFinal/index.php/"+parturl, success: function(result){
+		$.ajax({url: "http://"+hostname+"/OSOS/index.php/"+parturl, success: function(result){
 		var arrBuilder = jQuery.parseJSON(result);
 		 $(listboxid).empty();
 		$.each(arrBuilder, function (index, value) {
@@ -137,9 +137,9 @@ $(document).ready( function() {
                                         <div class="row">
                                             <div class="col-xs-6 col-md-4 group-mail">
                                                 <label for="maint_prop_type">Property Type</label>
-                                                <div class="radio block"><input id="maint_prop_type1" name="maint_prop_type1" type="radio" value="1"  disabled/><label>Building/FLAT</label></div>
-                                                <div class="radio block"><input id="maint_prop_type1" name="maint_prop_type1" type="radio" value="2"  disabled checked/><label>Villa</label></div>
-                                                <div class="radio block"><input id="maint_prop_type1" name="maint_prop_type1" type="radio" value="3" disabled /><label> Warehouse</label></div>
+                                                <div class="radio block"> &nbsp;<input id="maint_prop_type1" name="maint_prop_type1" type="radio" value="1"  disabled/><label>Building/FLAT</label></div>
+                                                <div class="radio block"> &nbsp;<input id="maint_prop_type1" name="maint_prop_type1" type="radio" value="2"  disabled checked/><label>Villa</label></div>
+                                                <div class="radio block"> &nbsp;<input id="maint_prop_type1" name="maint_prop_type1" type="radio" value="3" disabled /><label> Warehouse</label></div>
                                                 <!--div class="radio block"><input id="maint_prop_type" name="maint_prop_type" type="radio" value="4" /><label> Shops</label></div-->
                                             </div>
                                             <div class="col-xs-6 col-md-4 group-mail">
@@ -282,4 +282,3 @@ $(document).ready( function() {
 	<!--//scrolling js-->
 </body>
 </html>
-

@@ -37,7 +37,7 @@ $(function () {
                    <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
                     <ul id="myTab" class="nav nav-tabs" role="tablist">
                       <li role="presentation" class="active"><a href="<?php echo base_url(); ?>index.php/staff" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Employees</a></li>
-                      <li role="presentation"><a href="<?php echo base_url(); ?>index.php/UserRoles/userinfo" role="tab" id="profile-tab">New Employee</a></li>
+                      <!--li role="presentation"><a href="<?php echo base_url(); ?>index.php/UserRoles/userinfo" role="tab" id="profile-tab">New Employee</a></li-->
                     </ul>
                 <div id="myTabContent" class="tab-content">
                   <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">

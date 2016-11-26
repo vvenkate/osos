@@ -227,6 +227,23 @@ $(document).ready( function() {
 	
 	function propvalidate(){
 		var msg = "";
+		
+		country = $("#prop_country option:checked"). val();
+		if(country.length <= 1){
+			msg = "Country Name is missing";
+			$("#prop_country").addClass("textborderred");
+		}else{
+			$("#prop_country").removeClass("textborderred");
+		}
+		
+		city = $("#prop_city"). val();
+		if(city.length <= 1){
+			msg = "City Name is missing";
+			$("#prop_city").addClass("textborderred");
+		}else{
+			$("#prop_city").removeClass("textborderred");
+		}
+		
 		propty = $("input[name='prop_type']:checked"). val();
 		
 		if(propty == "Building"){
@@ -345,29 +362,48 @@ $(document).ready( function() {
 	$("#propflsave").click(propflatvalidate);
 	function propflatvalidate(){
 		var msg = "";
-		propty = $("input[name='prop_ftype']:checked"). val();
 		
+		buildname = $("#prop_building option:checked").val();
+		if(buildname.length < 1){
+			msg = "Please enter Builder Name";
+			$("#prop_building").addClass("textborderred");
+		}else{
+			$("#prop_building").removeClass("textborderred");
+		}
+		
+		
+		propty = $("input[name='prop_ftype']:checked"). val();
 		if(propty == "Flat"){
 			if($("#flat_floor_no").val().length < 1){
 				msg = "Please enter Flat Floor No";
 				$("#flat_floor_no").addClass("textborderred");
+			}else{
+				$("#flat_floor_no").removeClass("textborderred");
 			}
 			if($("#flat_no").val().length < 1){
 				msg += "Please enter Flat No";
 				$("#flat_no").addClass("textborderred");
+			}else{
+				$("#flat_no").removeClass("textborderred");
 			}
 			if($("#flatf_rent_amt").val().length < 1){
 				msg += "Please enter Rental Amount";
 				$("#flatf_rent_amt").addClass("textborderred");
+			}else{
+				$("#flatf_rent_amt").removeClass("textborderred");
 			}
 		}else if(propty = "6roomflat"){
 			if($("#flat1_no").val().length < 1){
 				msg += "Please enter Flat No";
-				$("#flat_no").addClass("textborderred");
+				$("#flat1_no").addClass("textborderred");
+			}else{
+				$("#flat1_no").removeClass("textborderred");
 			}
 			if($("#flatf1_rent_amt").val().length < 1){
 				msg += "Please enter Rental Value";
-				$("#flatf_rent_amt").addClass("textborderred");
+				$("#flatf1_rent_amt").addClass("textborderred");
+			}else{
+				$("#flatf1_rent_amt").removeClass("textborderred");
 			}
 		}
 		

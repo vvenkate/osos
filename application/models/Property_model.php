@@ -14,8 +14,8 @@ class Property_Model extends CI_Model {
 		//based on property type add villa
 		$insdata= array();
 		
-		if($this->input->post('prop_ftype') == "Flat"){
-			$insdata['builder_id']=$this->input->post('prop_building');
+		$insdata['builder_id']=$this->input->post('prop_building');
+		if($this->input->post('prop_ftype') == "Flat"){			
 			$insdata['flat_no']=$this->input->post('flat_no');
 			$insdata['floor_no']=$this->input->post('flat_floor_no');
 			$insdata['income']=$this->input->post('flatf_rent_amt');
@@ -32,7 +32,6 @@ class Property_Model extends CI_Model {
 		}
 		
 		if($this->input->post('prop_ftype') == "6roomflat"){
-			$insdata['builder_id']=$this->input->post('prop_building');
 			$insdata['flat_no']=$this->input->post('flat1_no');
 			$insdata['floor_no']="";
 			$insdata['income']=$this->input->post('flatf1_rent_amt');
@@ -115,6 +114,29 @@ class Property_Model extends CI_Model {
 				$insdata['id_expiry_date'] = date("Y-m-d ",$strtime)+"00:00:00";
 				$insdata['document_path'] = base_url()."/assets/uploads/".basename($this->upload('passport_doc', $tentant_id));
 				$this->db->insert('tenant_documents',$insdata);
+				
+				if($this->input->post('prop_ttype') == 1){					
+					$updata['occupied'] = "YES";
+					
+					$arrwhere["builder_id"] = $this->input->post('flat_name');
+					$arrwhere["id"] = $this->input->post('flat_no');
+					$this->db->where($arrwhere);
+					$this->db->update('builder_resedential',$updata);
+				}
+				if($this->input->post('prop_ttype')==2){
+					$updata['occupied'] = "YES";
+					
+					$arrwhere["id"] =$this->input->post('villa_no');
+					$this->db->where($arrwhere);
+					$this->db->update('villa_details',$updata);
+				}
+				if($this->input->post('prop_ttype')==3){
+					$updata['occupied'] = "YES";
+					
+					$arrwhere["id"] = $this->input->post('wh_no');
+					$this->db->where($arrwhere);
+					$this->db->update('warehouse_details',$updata);
+				}
 				return true;
 			}
 		}else {

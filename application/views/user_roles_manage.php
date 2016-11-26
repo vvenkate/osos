@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php $this->load->view('common/includes');?>
-<script>
+<script type="text/javascript">
 $(function () {
 	$('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
 
@@ -25,14 +25,6 @@ $(function () {
 		<div id="page-wrapper" class="gray-bg dashbard-1">
 			<div class="content-main">
 
-				<!--banner-->
-				<div class="banner">
-					<h2>
-						<a href="index.html">Home</a> <i class="fa fa-angle-right"></i> <span>User
-							Management</span>
-					</h2>
-				</div>
-				<!--//banner-->
 				<!--faq-->
 				<div class="blank">
 					<div class="blank-page">
@@ -42,7 +34,7 @@ $(function () {
 								<div class="bs-example bs-example-tabs" role="tabpanel"
 									data-example-id="togglable-tabs">
 									 <ul id="myTab" class="nav nav-tabs" role="tablist">
-                      					<li role="presentation" class="active"><a href="<?php echo base_url(); ?>index.php/staff" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Employees</a></li>                      					
+                      					<li role="presentation" class="active"><a href="#" id="home-tab" role="tab" >Employees</a></li>                      					
                     				</ul>
 									<!-- <form action="useraccess" method="post" name="profile_main"> -->
 									

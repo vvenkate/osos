@@ -372,9 +372,12 @@ class Property extends CI_Controller {
 	function getlbvilla(){
 		$arrwhere = "";
 		
-		if($_GET['occupy'] == 2){
-			$arrwhere['occupied'] = "NO";
+		if(isset($_GET['occupy'])){
+			if($_GET['occupy'] == 2){
+				$arrwhere['occupied'] = "NO";
+			}
 		}
+		
 		$dataArray = $this->property_model->get_villa($arrwhere);
 		$sendData="";
 		$i =0;

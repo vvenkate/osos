@@ -1,7 +1,7 @@
 // Maintenance Ticket Mgmt JS Document
 // Unit Management activity Document
 //funciton to display the hiddent div or element
-var hostname = "localhost";
+var hostname = "s442410310.onlinehome.us/osos";
 
 function divDisplay(elementid){
 	$(elementid).removeClass("div_disable");
@@ -20,9 +20,8 @@ function divNoDisplay(elementid){
 		$(listboxid+' option').remove();
 		$(listboxid).append($('<option/>',{value:"",text:"---None---"}));
 
-		$.ajax({url: "http://"+hostname+"/OSOSFinal/index.php/"+parturl, success: function(result){
+		$.ajax({url: "http://"+hostname+"/OSOS/index.php/"+parturl, success: function(result){
 		var arrBuilder = jQuery.parseJSON(result);
-		 $(listboxid).empty();
 		$.each(arrBuilder, function (index, value) {
 				$(listboxid).append($('<option/>', { 
 					value: value.key,
@@ -69,7 +68,7 @@ $(document).ready( function() {
 	
 	//--during add building give option to select the flat
 	$("#maint_prop_unit_no").click(function (){
-		var prop_type = $("input[name$='prop_type']").val();
+		var prop_type = $("input[name$='prop_type']:checked").val();
 		if(prop_type == 1){
 			var build_id = $(this).val();
 			if(build_id.length > 0){
@@ -100,6 +99,36 @@ $(document).ready( function() {
 			$("#ticket_desc").addClass("textborderred");
 		}else{
 			$("#ticket_desc").removeClass("textborderred");
+		}
+		
+		
+		//var prop_val = $("#prop_ftype ").val();
+		var prop_val = $("input[name='maint_prop_type']:checked"). val();
+		if(prop_val != ""){
+			if(prop_val == "Villa" || prop_val == 2){
+				if($("#maint_prop_unit_no option:selected").val().length == 0){
+					msg += "Please select Villa";
+					$("#maint_prop_unit_no").addClass("textborderred");
+				}else{
+					$("#maint_prop_unit_no").removeClass("textborderred");
+				}
+			}
+			if(prop_val == "Building" || prop_val == 1){
+				if($("#maint_prop_unit_no option:selected").val().length == 0){
+					msg += "Please select Building";
+					$("#maint_prop_unit_no").addClass("textborderred");
+				}else{
+					$("#maint_prop_unit_no").removeClass("textborderred");
+				}
+			}
+			if(prop_val == "Warehouse" || prop_val == 3){
+				if($("#maint_prop_unit_no option:selected").val().length == 0){
+					msg += "Please select Warehouse";
+					$("#maint_prop_unit_no").addClass("textborderred");
+				}else{
+					$("#maint_prop_unit_no").removeClass("textborderred");
+				}
+			}
 		}
 		
 		if(msg.length >=1){

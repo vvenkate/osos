@@ -211,7 +211,7 @@ $(function () {
                                             <div class="row">
                                                 <div class="col-xs-6 col-md-4 group-mail">
                                                 <label for="mstatus">Martial Status</label>
-                                                    <div class="radio block"><label><input type="radio" name="mstatus" id="mstatus" value="Single"> Single</label></div>
+                                                    <div class="radio block"><label><input type="radio" name="mstatus" id="mstatus" value="Single" checked> Single</label></div>
                                                     <div class="radio block"><label><input type="radio" name="mstatus" id="mstatus" value="Married"> Married</label></div>
                                                 </div>
                                                 <div class="col-xs-6 col-md-4 group-mail">
@@ -259,9 +259,9 @@ $(function () {
                                                 </div>
                                                 <div class="col-xs-6 col-md-4 group-mail">
                                                 <label for="idproof_edt">Valid Until Date</label>
-                                                <div class="input-group">
-                                                <input id="idproof_edt" name="idproof_edt" class="form-control" type="text" required placeholder="dd-mm-yyyy"><span class="input-group-addon"><a href="#"><img width="21" height="20" alt="DT" src="images/date.png"></a></span>
-                                                </div>
+                                                    <div class="input-group">
+                                                    <input id="idproof_edt" name="idproof_edt" class="form-control" type="text" required placeholder="dd-mm-yyyy"><span class="input-group-addon"><a href="#"><img width="21" height="20" alt="DT" src="<?php echo base_url(); ?>assets/images/date.png"></a></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row">

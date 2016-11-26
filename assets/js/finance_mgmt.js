@@ -1,5 +1,5 @@
 // Finance Management activity Document
-var hostname = "localhost";
+var hostname = "s442410310.onlinehome.us/osos";
 
 function divDisplay(elementid){
 	$(elementid).removeClass("div_disable");
@@ -103,30 +103,35 @@ $(document).ready( function() {
 	$("#expense_save").click(function(){
 		var msg = "";
 		
-		var prop_val = $("#prop_ftype").val();
-		if(prop_val != ""){
-			if(prop_val == "Villa"){
-				if($("#villa_no").val().length <= 1){
-					msg += "Please select Villa";
-					$("#villa_no").addClass("textborderred");
-				}else{
-					$("#villa_no").removeClass("textborderred");
+		var exp_val = $("input[name='exp_type']:checked"). val();
+		
+		if(exp_val == "property"){
+			//var prop_val = $("#prop_ftype ").val();
+			var prop_val = $("input[name='prop_ftype']:checked"). val();
+			if(prop_val != ""){
+				if(prop_val == "Villa" || prop_val == 2){
+					if($("#villa_no option:selected").val().length == 0){
+						msg += "Please select Villa";
+						$("#villa_no").addClass("textborderred");
+					}else{
+						$("#villa_no").removeClass("textborderred");
+					}
 				}
-			}
-			if(prop_val == "Building"){
-				if($("#flat_name").val().length <= 1){
-					msg += "Please select Building";
-					$("#flat_name").addClass("textborderred");
-				}else{
-					$("#flat_name").removeClass("textborderred");
+				if(prop_val == "Building" || prop_val == 1){
+					if($("#flat_name option:selected").val().length == 0){
+						msg += "Please select Building";
+						$("#flat_name").addClass("textborderred");
+					}else{
+						$("#flat_name").removeClass("textborderred");
+					}
 				}
-			}
-			if(prop_val == "Warehouse"){
-				if($("#wh_no").val().length <= 1){
-					msg += "Please select Warehouse";
-					$("#wh_no").addClass("textborderred");
-				}else{
-					$("#wh_no").removeClass("textborderred");
+				if(prop_val == "Warehouse" || prop_val == 3){
+					if($("#wh_no option:selected").val().length == 0){
+						msg += "Please select Warehouse";
+						$("#wh_no").addClass("textborderred");
+					}else{
+						$("#wh_no").removeClass("textborderred");
+					}
 				}
 			}
 		}
@@ -157,6 +162,57 @@ $(document).ready( function() {
 			return false;
 		}
 	});
+	
+	
+	$("#income_save").click(function(){
+		var msg = "";
+		var prop_val = $("input[name='prop_ftype']:checked"). val();
+		if(prop_val != ""){
+			if(prop_val == "Villa" || prop_val == 2){
+				if($("#villa_no option:selected").val().length == 0){
+					msg += "Please select Villa";
+					$("#villa_no").addClass("textborderred");
+				}else{
+					$("#villa_no").removeClass("textborderred");
+				}
+			}
+			if(prop_val == "Building" || prop_val == 1){
+				if($("#flat_name option:selected").val().length == 0){
+					msg += "Please select Building";
+					$("#flat_name").addClass("textborderred");
+				}else{
+					$("#flat_name").removeClass("textborderred");
+				}
+			}
+			if(prop_val == "Warehouse" || prop_val == 3){
+				if($("#wh_no option:selected").val().length == 0){
+					msg += "Please select Warehouse";
+					$("#wh_no").addClass("textborderred");
+				}else{
+					$("#wh_no").removeClass("textborderred");
+				}
+			}
+		}
+		
+		if($("#rent_date").val() <= 0){
+			msg += "Please select Actual Rent Date";
+			$("#rent_date").addClass("textborderred");
+		}else{
+			$("#rent_date").removeClass("textborderred");
+		}
+		
+		if($("#inc_amt").val() <= 0){
+			msg += "Please select Income Amount";
+			$("#inc_amt").addClass("textborderred");
+		}else{
+			$("#inc_amt").removeClass("textborderred");
+		}
+		
+		if(msg.length >=1){
+			return false;
+		}
+	});
+	
 	
 
 });

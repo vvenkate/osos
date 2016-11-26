@@ -1,5 +1,5 @@
 // Tenant Management activity Document
-var hostname = "localhost";
+var hostname = "s442410310.onlinehome.us";
 
 function divDisplay(elementid){
 	$(elementid).removeClass("div_disable");
@@ -18,7 +18,7 @@ function divNoDisplay(elementid){
 		$(listboxid+' option').remove();
 		$(listboxid).append($('<option/>',{value:"",text:"---None---"}));
 
-		$.ajax({url: "http://"+hostname+"/OSOSFinal/index.php/"+parturl, success: function(result){
+		$.ajax({url: "http://"+hostname+"/osos/OSOS/index.php/"+parturl, success: function(result){
 		var arrBuilder = jQuery.parseJSON(result);
 		$.each(arrBuilder, function (index, value) {
 				$(listboxid).append($('<option/>', { 
@@ -27,7 +27,6 @@ function divNoDisplay(elementid){
 				}));
 			}); 
 		}});
-		return true;
 	}
 $(document).ready( function() {
 
@@ -78,26 +77,27 @@ $(document).ready( function() {
 	$("#tenant_save").click(function(){
 		var msg = "";
 		
-		var prop_val = $("#prop_ttype").val();
+		//var prop_val = $("#prop_ttype").val();
+		var prop_val = $('input[name=prop_ttype]:checked').val();
 		if(prop_val != ""){
-			if(prop_val == "Villa"){
-				if($("#villa_no").val().length <= 1){
+			if(prop_val == "Villa" || prop_val == 2){
+				if($("#villa_no option:selected").val().length <= 0){
 					msg += "Please select Villa";
 					$("#villa_no").addClass("textborderred");
 				}else{
 					$("#villa_no").removeClass("textborderred");
 				}
 			}
-			if(prop_val == "Building"){
-				if($("#flat_name").val().length <= 1){
+			if(prop_val == "Building" || prop_val == 1){
+				if($("#flat_name option:selected").val().length <= 0){
 					msg += "Please select Building";
 					$("#flat_name").addClass("textborderred");
 				}else{
 					$("#flat_name").removeClass("textborderred");
 				}
 			}
-			if(prop_val == "Warehouse"){
-				if($("#wh_no").val().length <= 1){
+			if(prop_val == "Warehouse" || prop_val == 3){
+				if($("#wh_no option:selected").val().length <= 0){
 					msg += "Please select Warehouse";
 					$("#wh_no").addClass("textborderred");
 				}else{
@@ -142,19 +142,27 @@ $(document).ready( function() {
 			$("#nationality").removeClass("textborderred");
 		}
 		
-		if($("#rent_start_date").val().length <=1){
+		if($("#tentcont_sd").val().length <=1){
 			msg = "Start Date is missing";
-			$("#rent_start_date").addClass("textborderred");
+			$("#tentcont_sd").addClass("textborderred");
 		}else{
-			$("#rent_start_date").removeClass("textborderred");
+			$("#tentcont_sd").removeClass("textborderred");
 		}
 		
 		if($("#tentcont_ed").val().length <=1){
-			msg = "Start Date is missing";
+			msg = "End Date is missing";
 			$("#tentcont_ed").addClass("textborderred");
 		}else{
 			$("#tentcont_ed").removeClass("textborderred");
 		}
+		
+		if($("#tenant_rent").val().length <=1){
+			msg = "Rent value is missing";
+			$("#tenant_rent").addClass("textborderred");
+		}else{
+			$("#tenant_rent").removeClass("textborderred");
+		}
+		
 		
 		if(msg.length >=1){
 			return false;
