@@ -153,35 +153,42 @@ class Ticket extends CI_Controller {
 	
 	//function viewTicketByUserId($assigned_user_id){
 	function viewTicketByUserId(){
-		
-// 		$priority = isset($_POST['priority']) ? $_POST['priority'] : 1;
-// 		$status   = isset($_POST['status']) ? $_POST['status'] : 'New';
-				
-// 		$priority_list = split(",", $priority);
-// 		$status_list = split(",", $status);
-		
-// 		var_dump($priority);
-// 		var_dump($status);
-		
-// 		die(0);
 
 		/// Checks for Active
 		
 		$actionStatus = '';
 		$priotityStatus = '';
 		
-		if($_POST['status'] == 'Active') {
-			//$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($_POST['user_id'], $priority_list, true);
-			//$status_list[0] = $_POST['status'];
+		if(empty($_POST['status'])){
 			$actionStatus = 'Active';
 			$status_list = array('New', 'Inprogress');
+			
+			$priority_list = array(1,2,3,4,5);
+			$priorityStatus = 'All';
 		}
 		
-		if($_POST['status'] == 'Inactive') {
-			//$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($_POST['user_id'], $priority_list, true);
-			//$status_list[0] = $_POST['status'];
-			$actionStatus = 'Inactive';
-			$status_list = array('Fixed', 'Closed');
+		if(empty($_POST['user_id'])){
+			$user_id = 9;
+		}else{
+			$user_id = $_POST['user_id'];
+		}
+		
+		if(!empty($_POST['status'])){
+			if($_POST['status'] == 'Active' || strtolower($_POST['status']) == "active") {
+				$actionStatus = 'Active';
+				$status_list = array('New', 'Inprogress');
+				
+				$priority_list = array(1,2,3,4,5);
+				$priorityStatus = 'All';
+			}
+			
+			if($_POST['status'] == 'Inactive' || strtolower($_POST['status']) == "inactive") {
+				$actionStatus = 'Inactive';
+				$status_list = array('Done', 'Closed');
+				
+				$priority_list = array(1,2,3,4,5);
+				$priorityStatus = 'All';
+			}
 		}
 
 		//echo $actionStatus;
@@ -191,29 +198,32 @@ class Ticket extends CI_Controller {
 				$status_list = explode("," , $_POST['status']);
 				$actionStatus = 'MUL';
 			} else {
-				$status_list[0] = $_POST['status'];
-				$actionStatus = $_POST['status'];
+				if($_POST['status'] != ""){
+					$status_list[0] = $_POST['status'];
+					$actionStatus = $_POST['status'];
+				}
 			}
 		}
 		
 		/// Checks for Priority
-		if($_POST['priority'] == 'All') {
-			//$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($_POST['user_id'], $priority_list, true);
-			//$status_list[0] = $_POST['status'];
-			$priority_list = array(1,2);
-			$priorityStatus = 'All';
-			//$status_list = array('Fixed', 'Closed');
-		} else {
-			if(strpos( $_POST['priority'], ',')){
-				$priority_list = explode("," , $_POST['priority']);
-				$priotityStatus = 'MUL';
-			}else{
-				$priority_list[0] = $_POST['priority'];
-				$priotityStatus =  $_POST['priority'];
+		if(!empty($_POST['priority'])){
+			if(strtolower($_POST['priority']) == 'all') {
+				$priority_list = array(1,2,3,4,5);
+				$priorityStatus = 'All';
+			} else {
+				if(strpos( $_POST['priority'], ',')){
+					$priority_list = explode("," , $_POST['priority']);
+					$priotityStatus = 'MUL';
+				}else{
+					if($_POST['priority'] != ""){
+						$priority_list[0] = $_POST['priority'];
+						$priotityStatus =  $_POST['priority'];
+					}
+				}
 			}
 		}
 		
-		$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($_POST['user_id'], count($status_list), $status_list, count($priority_list), $priority_list);
+		$ticketMaintenance = $this->mainticket_model->getTicketDetailByUserActive($user_id, count($status_list), $status_list, count($priority_list), $priority_list);
 				
 		$temparr = array();
 		

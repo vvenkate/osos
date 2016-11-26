@@ -63,7 +63,7 @@ $(document).ready( function() {
                               <option value="Property">Property</option>
                               <option value="Finance">Finance</option>
                               <option value="Ticket">Maintenance Ticket</option>
-                              <option value="Contract">Tenant Contract</option>
+                              <!--option value="Contract">Tenant Contract</option-->
                              </select>
                         </div>
                         <div class="col-xs-6 col-md-4 group-mail">

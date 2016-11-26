@@ -35,7 +35,7 @@
 						<li role="presentation"><img src="<?php echo base_url(); ?>assets/images/mail.jpg" alt="mail" /></li>
 					</ul>
 					<ul class="nav notify">
-					 <li role="presentation"><a href="<?php echo base_url(); ?>index.php/notify"><img src="<?php echo base_url(); ?>assets/images/notify.jpg" alt="notify" /></a></li>
+					 <li role="presentation"><img src="<?php echo base_url(); ?>assets/images/notify.jpg" alt="notify" /></li>
 					 </ul>
 					 <ul class="nav logout">
 						<li role="presentation"><a href="<?php echo base_url(); ?>index.php/staff/logout"><img src="<?php echo base_url(); ?>assets/images/logout.jpg" alt="Logout"/></a></li>

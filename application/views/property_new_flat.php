@@ -52,14 +52,13 @@ $(document).ready( function() {
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
 										  <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property" id="home-tab" role="tab">Home</a></li>
                                           <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addproperty" role="tab" id="profile-tab">New Building/Villa/Warehouse</a></li>
-                                          <li role="presentation" class="active"><a href="#" role="tab" id="profile-tab">New Flat/6 Room House</a></li>
-                                          <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addtenant" role="tab" id="profile-tab">New Tenant</a></li>
+                                          <li role="presentation" class="active"><a href="#" role="tab" id="profile-tab">New Flat/Shop</a></li>
 									</ul>
                                     <?php echo form_open('property/addflat'); ?>
                                     <div id="myTabContent" class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active"
                                             id="home" aria-labelledby="home-tab">
-                                         <h2 class="h2.-bootstrap-heading group-mail">New Flat/6 BedRoom House</h2>
+                                         <h2 class="h2.-bootstrap-heading group-mail">New Flat/Shop</h2>
                     				<div class="row">
                                             <div class="col-xs-6 col-md-4 group-mail">
                                             <label for="prop_building">Building Name</label>
@@ -79,7 +78,7 @@ $(document).ready( function() {
                                         <div class="col-xs-6 col-md-4 group-mail">
                                         <label for="prop_ftype">Property Type</label>
                                         <div class="radio block"><input id="prop_ftype" name="prop_ftype" type="radio" value="Flat" checked="true"/><label>Studio</label></div>
-                                        <div class="radio block"><input id="prop_ftype" name="prop_ftype" type="radio" value="6roomflat" /><label>6 Bedroom House</label></div>
+                                        <div class="radio block"><input id="prop_ftype" name="prop_ftype" type="radio" value="Shop" /><label>6 Bedroom House</label></div>
                                         <!--div class="radio block"><input id="prop_type" name="prop_type" type="radio" value="Shop" /><label> Shops</label></div-->
                                         </div>
                                         <div class="col-xs-6 col-md-4 group-mail">
@@ -132,44 +131,6 @@ $(document).ready( function() {
                                         </div>
                                     </div>
                                     
-                                    <!-- flat details -->
-                                    <div id="flatf1" class="div_disable">
-                                        <div class="row">
-                                            <div class="col-xs-6 col-md-4 group-mail">
-                                            <label for="flat1_no">House No</label>
-                                            <input id="flat1_no" name="flat1_no" class="form-control" type="text" placeholder="No XXXX">
-                                            </div>
-                                            <div class="col-xs-6 col-md-4 group-mail">
-                                            <label for="fno_rooms">No of Rooms</label>
-                                            <input id="fno_rooms" name="fno_rooms" class="form-control" type="text" value="6" readonly>
-                                            </div>
-                                            <div class="col-xs-6 col-md-4 group-mail">
-                                            
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-xs-6 col-md-3 group-mail">
-                                            <label for="flatf1_rent_amt">Rental Value &nbsp;(AED)</label>
-                                            <input id="flatf1_rent_amt" name="flatf1_rent_amt" class="form-control" type="text" placeholder="XXX" />
-                                            </div>
-                                            <div class="col-md-2">
-                                            <label>&nbsp; </label>
-                                            <select class="form-control" id="flatf1_rent_type" name="flatf1_rent_type">
-                                                  <option value="Monthly">Monthly</option>
-                                                  <option value="Quarterly">Quarterly</option>
-                                                  <option value="Half Yearly">Half Yearly</option>
-                                                  <option value="Yearly">Yearly</option>
-                                                 </select>
-                                            </div>
-                                            <div class="col-xs-6 col-md-4 group-mail">
-                                                
-                                            </div>
-                                            <div class="col-xs-6 col-md-3 group-mail">
-                                           
-                                            </div>
-                                        </div>
-                                    </div>
                                     
                                     <!-- Shop details -->
                                     <div id="shopf" class="div_disable">

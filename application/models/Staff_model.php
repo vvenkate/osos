@@ -76,8 +76,6 @@ class Staff_Model extends CI_Model {
 				'current_address1' => $caddress1,
 				'current_address2' => $caddress2,
 				'current_city' => $ccity,
-				'current_state' => $cstate,
-				'current_zipcode' =>$czipcode,
 				'current_country' => $ccountry,
 		
 				'emp_id' => $empid,

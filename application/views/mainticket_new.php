@@ -157,7 +157,7 @@ $(document).ready( function() {
                                         <div class="row">
                                             <div class="col-xs-6 col-md-4 group-mail">
                                              <label for="maint_image">Upload Image</label>
-                                             <input type="file" id="maint_image" name="maint_image">
+                                             <input type="file" id="maint_image">
                                             </div>
                                             <div class="col-xs-6 col-md-4 group-mail">
                                             

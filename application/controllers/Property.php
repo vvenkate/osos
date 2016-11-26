@@ -274,6 +274,7 @@ class Property extends CI_Controller {
 						$tentData[$i]['std'] = date("d-M-Y",$edate);
 						$edate = strtotime($detval->contract_enddate);
 						$tentData[$i]['etd'] = date("d-M-Y",$edate);
+						$tentData[$i]['id'] = $detval->id;
 					}
 				}
 				$i++;
@@ -325,6 +326,7 @@ class Property extends CI_Controller {
 						$tentData[$i]['std'] = date("d-M-Y",$edate);
 						$edate = strtotime($detval->contract_enddate);
 						$tentData[$i]['etd'] = date("d-M-Y",$edate);
+						$tentData[$i]['id'] = $detval->id;
 					}
 				}
 				$i++;

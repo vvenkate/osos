@@ -31,7 +31,7 @@ $(function () {
 	
 	$("#prop_list_change").change(function(){
 		var value = $(this).val();
-		var newpage = "<?php echo base_url(); ?>/index.php/";
+		var newpage = "<?php echo base_url(); ?>index.php/";
 
 		//newpage = $(location).attr('href');
 		if(value == "villa"){

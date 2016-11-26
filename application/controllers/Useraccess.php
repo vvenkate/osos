@@ -25,16 +25,16 @@ class Useraccess extends CI_Controller {
 		$reportMt = $this->input->post('reportmgmt');		
 		
 		$infoBit  = $staffMt+$finMt+$propMt+$userMt+$mainMt+$reportMt;
-		var_dump($infoBit);
+		//var_dump($infoBit);
 		
 		//updateUserRoleId
 		
-		echo $this->input->post('user_id');
+		//echo $this->input->post('user_id');
 		
 		$this->staff->updateUserRoleId($this->input->post('user_id'), $role);
 		$this->staff->updateUserPrivileges($this->input->post('user_id'), $infoBit);
 		
-		die(0);
+		redirect('/Userroles');
 		
 	}
 	

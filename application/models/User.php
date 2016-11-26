@@ -18,6 +18,23 @@ class User extends CI_Model {
 		}
 	}
 	
+	//to get list of users
+	public function getPersonalData($id){
+		$this->db->select('*');
+		$this->db->from('user_personal_details');
+	
+		$this->db->where('id', $id);
+	
+		$query = $this->db->get();
+	
+		if ($query->num_rows() > 0) {
+			$row = $query->result();
+			return $row[0];
+		}else {
+			return false;
+		}
+	}
+	
 	/*
 	 * Get the access rights from the table 
 	 * @user_id

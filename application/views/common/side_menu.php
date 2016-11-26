@@ -124,7 +124,7 @@ $aPrivileges = $this->session->userdata('privileges');
 			<?php 
 			if($UM_ALLOWED){
 			?>
-			<li><a href="<?php echo base_url(); ?>index.php/usermanage" class=" hvr-bounce-to-right"><span class="nav-label">USER ROLES</span> </a></li>
+			<li><a href="<?php echo base_url(); ?>index.php/Userroles" class=" hvr-bounce-to-right"><span class="nav-label">USER ROLES</span> </a></li>
 			<?php
 			} else { 
 			?>

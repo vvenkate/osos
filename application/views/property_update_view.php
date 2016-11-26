@@ -127,8 +127,7 @@ $(function () {
 									<ul id="myTab" class="nav nav-tabs" role="tablist">
 										<li role="presentation"><a href="<?php echo base_url(); ?>index.php/property" id="home-tab" role="tab">Home</a></li>
                                           <li role="presentation" class="active"><a href="#" role="tab" id="profile-tab">Edit Building/Villa/Warehouse</a></li>
-                                          <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addflat" role="tab" id="profile-tab">New Flat/6 Room House</a></li>
-                                          <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addtenant" role="tab" id="profile-tab">New Tenant</a></li>
+                                          <li role="presentation"><a href="<?php echo base_url(); ?>index.php/property/addflat" role="tab" id="profile-tab">New Flat/Shop</a></li>
 									</ul>
                                     <?php echo form_open('property/update_property'); ?>
                                     <div id="myTabContent" class="tab-content">
