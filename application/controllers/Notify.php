@@ -8,7 +8,7 @@ class Notify extends CI_Controller {
 		ini_set('display_errors', true);
 		//$this->load->model ( 'user', '', TRUE );
 		$this->load->model ( 'property_model');
-		$this->load->model ( 'finance_model');
+		$this->load->model( 'Finance_Model', 'finance_model');
 		$this->load->model( 'Country_model', 'country');
 		//$this->load->model('acl_model', 'acl');
 	}

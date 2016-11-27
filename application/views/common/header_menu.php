@@ -7,7 +7,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a href="index.html"><img src="<?php echo base_url(); ?>assets/images/OSOS-WEB-LOGO.png" alt="OSOS LOGO" width="250" height="70"/> </a>
+				<a href="<?php echo base_url(); ?>index.php/Dashboard"><img src="<?php echo base_url(); ?>assets/images/OSOS-WEB-LOGO.png" alt="OSOS LOGO" width="250" height="70"/> </a>
 			</div>
 			<div class=" border-bottom">
 				<div class="full-left">
@@ -35,7 +35,7 @@
 						<li role="presentation"><img src="<?php echo base_url(); ?>assets/images/mail.jpg" alt="mail" /></li>
 					</ul>
 					<ul class="nav notify">
-					 <li role="presentation"><img src="<?php echo base_url(); ?>assets/images/notify.jpg" alt="notify" /></li>
+					 <li role="presentation"><a href="<?php echo base_url(); ?>index.php/notify"><img src="<?php echo base_url(); ?>assets/images/notify.jpg" alt="notify" /></a></li>
 					 </ul>
 					 <ul class="nav logout">
 						<li role="presentation"><a href="<?php echo base_url(); ?>index.php/staff/logout"><img src="<?php echo base_url(); ?>assets/images/logout.jpg" alt="Logout"/></a></li>
