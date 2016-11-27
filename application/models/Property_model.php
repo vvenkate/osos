@@ -64,6 +64,55 @@ class Property_Model extends CI_Model {
 		}
 	}
 	
+	public function get_dashboard(){
+		$arrData = "";
+		$this->db->select('id');
+		$this->db->from('building_details');
+		$query = $this->db->get();
+		
+		$arrData['building_cnt'] = $query->num_rows();
+		
+		$this->db->select('id');
+		$this->db->from('builder_resedential');
+		$query = $this->db->get();
+		
+		$arrData['building_flat_cnt'] = $query->num_rows();
+
+		$this->db->select('id,name,no,created_at');
+		$this->db->from('villa_details');
+		$query = $this->db->get();
+		
+		$arrData['villa_cnt'] = $query->num_rows();
+
+		$this->db->select('id,name,number,created_at');
+		$this->db->from('warehouse_details');
+		$query = $this->db->get();
+		
+		$arrData['warehouse_cnt'] = $query->num_rows();
+		
+		$this->db->select('id');
+		$this->db->from('builder_resedential');
+		$this->db->where('occupied',"YES");
+		$query = $this->db->get();
+		
+		$arrData['building_flat_occ_cnt'] = $query->num_rows();
+
+		$this->db->select('id,name,no,created_at');
+		$this->db->from('villa_details');
+		$this->db->where('occupied',"YES");
+		$query = $this->db->get();
+		
+		$arrData['villa_occ_cnt'] = $query->num_rows();
+
+		$this->db->select('id,name,number,created_at');
+		$this->db->from('warehouse_details');
+		$this->db->where('occupied',"YES");
+		$query = $this->db->get();
+		
+		$arrData['warehouse_occ_cnt'] = $query->num_rows();
+		return $arrData;
+	}
+	
 	public function add_tenant(){
 		//based on property type add villa
 		$insdata= array();
