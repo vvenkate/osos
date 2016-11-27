@@ -63,6 +63,18 @@ class Property extends CI_Controller {
 		$this->load->view('property_list', $data);
 	}
 	
+	function sms(){
+		$MessageBird = new \MessageBird\Client('');
+
+		$Message = new \MessageBird\Objects\Message();
+		$Message->originator = 'MessageBird';
+		$Message->recipients = array(919341123435);
+		$Message->body = 'This is a test message.';
+		
+		$result = $MessageBird->messages->create($Message);
+		var_dump($result);
+	}
+	
 	//add update property villa, warehouse and bulding
 	function addproperty(){
 		$this->load->helper(array('form'));
